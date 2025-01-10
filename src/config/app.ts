@@ -17,7 +17,8 @@ app.use(compression());
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-const allowedOrigin = process.env.ALLOWED_ORIGIN
+const allowedOriginApp = process.env.ALLOWED_ORIGIN_APP
+const allowedOriginPos = process.env.ALLOWED_ORIGIN_POS
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -33,7 +34,7 @@ app.use(limiter);
 app.use(
     cors({
         origin: (origin, callback) => {
-            if (!origin || origin === allowedOrigin) {
+            if (!origin || origin === allowedOriginApp || origin === allowedOriginPos) {
                 callback(null, true);
             } else {
                 callback(new Error('Not allowed by CORS'));
